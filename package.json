@@ -1,0 +1,34 @@
+{
+  "name": "light-req",
+  "version": "0.0.1",
+  "description": "nodejs http and https lightweight wrapper for easy requests",
+  "keywords": [
+    "http",
+    "http",
+    "req",
+    "request"
+  ],
+  "homepage": "https://github.com/v-electrolux/light-req#readme",
+  "bugs": {
+    "url": "https://github.com/v-electrolux/light-req/issues"
+  },
+  "license": "ISC",
+  "author": "v-electrolux",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/v-electrolux/light-req.git"
+  },
+  "scripts": {
+    "test": "mocha tests/tests.js"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "mocha": "8.1.0",
+    "nock": "13.0.3",
+    "nyc": "15.1.0"
+  }
+}
