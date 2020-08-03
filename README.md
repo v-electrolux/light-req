@@ -1,4 +1,4 @@
-# light-req [![NPM version](https://badge.fury.io/js/light-req.svg)](http://badge.fury.io/js/light-req) [![Build Status](https://travis-ci.com/v-electrolux/light-req.svg?branch=master)](https://travis-ci.com/v-electrolux/light-req) [![Code Coverage](https://badgen.now.sh/codecov/c/github/v-electrolux/light-req)](https://badgen.now.sh/codecov/c/github/v-electrolux/light-req) [![install size](https://packagephobia.com/badge?p=light-req)](https://packagephobia.com/result?p=light-req)
+# light-req [![NPM version](https://badge.fury.io/js/light-req.svg)](https://badge.fury.io/js/light-req) [![Build Status](https://travis-ci.com/v-electrolux/light-req.svg?branch=master)](https://travis-ci.com/v-electrolux/light-req) [![Code Coverage](https://badgen.now.sh/codecov/c/github/v-electrolux/light-req)](https://badgen.now.sh/codecov/c/github/v-electrolux/light-req) [![install size](https://packagephobia.com/badge?p=light-req)](https://packagephobia.com/result?p=light-req)
 
 A very tiny package (zero dependencies) that allows you to make http and https requests (some wrap and sugar for nodejs http and https)
 
