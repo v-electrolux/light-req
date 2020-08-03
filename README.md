@@ -29,7 +29,7 @@ makeHttpRequest function arguments
 ## Example
 
 ```js
-const { makeHttpRequest, ParseResponseOptions } = require("../index");
+const { makeHttpRequest, ParseResponseOptions } = require("light-req");
 
 const actualResult = await makeHttpRequest(
         false,
