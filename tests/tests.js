@@ -2,7 +2,7 @@ const stream = require("stream");
 const expect = require("chai").expect;
 const assert = require("chai").assert;
 const nock = require('nock');
-const { makeHttpRequest, ParseResponseOptions } = require("../index");
+const makeHttpRequest = require("../index");
 
 describe("should make tests", function () {
     let fakeApp;
@@ -112,7 +112,7 @@ describe("should make tests", function () {
             "/test_route",
             { request: 1 },
             undefined,
-            ParseResponseOptions.AsReadStream,
+            true,
         );
         expect(actualResult).to.be.an.instanceof(stream.Readable);
         // TODO check stream content
@@ -134,7 +134,7 @@ describe("should make tests", function () {
                 "/test_route",
                 {request: 1},
                 undefined,
-                ParseResponseOptions.AsJsonTry,
+                undefined,
             );
         } catch (err) {
             expect(err).to.be.an.instanceof(SyntaxError);
@@ -159,7 +159,7 @@ describe("should make tests", function () {
                 "/test_route",
                 {request: 1},
                 undefined,
-                ParseResponseOptions.AsJsonTry,
+                undefined,
             );
         } catch (err) {
             expect(err).to.be.an.instanceof(Error);
@@ -185,7 +185,7 @@ describe("should make tests", function () {
                 "/test_route",
                 {request: 1},
                 undefined,
-                ParseResponseOptions.AsJsonTry,
+                undefined,
             );
         } catch (err) {
             expect(err).to.be.an.instanceof(Error);
@@ -211,7 +211,7 @@ describe("should make tests", function () {
                 "/test_route",
                 {request: 1},
                 undefined,
-                ParseResponseOptions.AsJsonTry,
+                undefined,
             );
         } catch (err) {
             expect(err).to.be.an.instanceof(Error);

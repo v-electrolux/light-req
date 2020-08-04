@@ -13,23 +13,20 @@ $ npm install light-req
 Some arguments are optional, but you can not skip them, you should use undefined instead of correct values, except they are last
 
 makeHttpRequest function arguments
-- isSecure - false if you want http, true if you want https, required
-- url - string with host and port, with or without protocol, required
-- login - base auth user, optional
-- password - base auth password, optional
-- method - http method, required
-- path - path to resource (if you want to explicit type conversion from string for environment variables), required
+- isSecure - false if you want http, true if you want https, boolean, required
+- url - string with host and port, with or without protocol, string, required
+- login - base auth user, string, optional
+- password - base auth password, string, optional
+- method - http method, string, required
+- path - path to resource (if you want to explicit type conversion from string for environment variables), string, required
 - body - json body object, optional
-- options - you can specify most of http and https options, optional
-- parseResponseOptions - optional, ParseResponseOptions enumeration
-  - AsJsonTry: default behavior, if response content-type is json tries to parse and throw error if can not
-  - AsJsonForce: regardless of content-type tries to parse and throw error if can not
-  - AsReadStream: not reading response stream at all and return readable stream
+- options - you can specify most of http and https options, object, optional
+- doNotReadResponse - set to true if you want to read response stream yourself, boolean, optional
 
 ## Example
 
 ```js
-const { makeHttpRequest, ParseResponseOptions } = require("light-req");
+const makeHttpRequest = require("light-req");
 
 const actualResult = await makeHttpRequest(
         false,
@@ -40,8 +37,6 @@ const actualResult = await makeHttpRequest(
         "/test_route",
         {request: 1},// or undefined
         { timeout: 20000 },// or undefined
-        ParseResponseOptions.AsJsonForce,// or undefined
+        true,// or undefined
     );
-// actualResult is JSON object or throw Error if not
-
 ```

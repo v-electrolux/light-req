@@ -1,6 +1,6 @@
 {
   "name": "light-req",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "nodejs http and https lightweight wrapper for easy requests",
   "keywords": [
     "http",

@@ -3,13 +3,7 @@ const { URL } = require("url");
 const http = require("http");
 const https = require("https");
 
-const ParseResponseOptions = {
-    AsJsonTry: "try_parse_json",
-    AsJsonForce: "force_parse_json",
-    AsReadStream: "do_not_read_stream",
-};
-
-async function makeHttpRequest(isSecure, url, login, password, method, path, body, options, parseResponseOptions) {
+async function makeHttpRequest(isSecure, url, login, password, method, path, body, options, doNotReadResponse) {
     options = options || {};
     url = isSecure
         ? url.startsWith("https://") ? url : "https://" + url
@@ -33,7 +27,7 @@ async function makeHttpRequest(isSecure, url, login, password, method, path, bod
 
     return new Promise(function(resolve, reject) {
         request.on("response", function (response) {
-            if (parseResponseOptions !== ParseResponseOptions.AsReadStream) {
+            if (!doNotReadResponse) {
                 const dataChunks = [];
                 response.on("data", (chunk) => {
                     dataChunks.push(chunk);
@@ -42,22 +36,26 @@ async function makeHttpRequest(isSecure, url, login, password, method, path, bod
                     const responseBodyBuffer = Buffer.concat(dataChunks);
                     const responseBodyString = responseBodyBuffer.toString("utf8");
                     let responseBody;
-                    const isJsonResponse = response.headers.hasOwnProperty("content-type") && response.headers["content-type"].includes("application/json");
-                    if (isJsonResponse || (parseResponseOptions === ParseResponseOptions.AsJsonForce)) {
-                        try {
-                            responseBody = JSON.parse(responseBodyString);
-                        } catch (err) {
-                            reject(err);
-                            return;
-                        }
-                    } else {
+                    let parseError = null;
+                    try {
+                        responseBody = JSON.parse(responseBodyString);
+                    } catch (err) {
                         responseBody = responseBodyString;
+                        parseError = err;
                     }
+                    const parseSuccessfully = (parseError === null);
 
-                    if (response.statusCode !== 200) {
-                        reject(new ExternalServiceError(response.statusCode, response.statusMessage, responseBody));
+                    const isJsonResponse = response.headers.hasOwnProperty("content-type")
+                        && response.headers["content-type"].includes("application/json");
+
+                    if (isJsonResponse && !parseSuccessfully) {
+                        reject(parseError);
                     } else {
-                        resolve(responseBody);
+                        if (response.statusCode !== 200) {
+                            reject(new ExternalServiceError(response.statusCode, response.statusMessage, responseBody));
+                        } else {
+                            resolve(responseBody);
+                        }
                     }
                 });
             } else {
@@ -89,5 +87,4 @@ class ExternalServiceError extends Error {
     }
 }
 
-module.exports.ParseResponseOptions = ParseResponseOptions;
-module.exports.makeHttpRequest = makeHttpRequest;
+module.exports = makeHttpRequest;
