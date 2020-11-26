@@ -37,6 +37,26 @@ describe("should make tests", function () {
         expect(actualResult).to.be.eql(expectedResult);
     });
 
+    it("should get json parsed body and slash", async function () {
+        const expectedResult = {result: 1};
+        fakeApp
+            .get("/test_route").once()
+            .reply(200, expectedResult);
+
+        const actualResult = await makeHttpRequest(
+            false,
+            "http://127.0.0.1:3000/",
+            undefined,
+            undefined,
+            "GET",
+            "/test_route",
+            undefined,
+            undefined,
+            undefined,
+        );
+        expect(actualResult).to.be.eql(expectedResult);
+    });
+
     it("should get json parsed body with base auth", async function () {
         const expectedResult = {result: 1};
         fakeApp
@@ -48,6 +68,46 @@ describe("should make tests", function () {
             "http://127.0.0.1:3000",
             "john",
             "galt",
+            "GET",
+            "/test_route",
+            undefined,
+            undefined,
+            undefined,
+        );
+        expect(actualResult).to.be.eql(expectedResult);
+    });
+
+    it("should get json parsed body with base path", async function () {
+        const expectedResult = {result: 1};
+        fakeApp
+            .get("/test/1.0/test_route").once()
+            .reply(200, expectedResult);
+
+        const actualResult = await makeHttpRequest(
+            false,
+            "http://127.0.0.1:3000/test/1.0",
+            undefined,
+            undefined,
+            "GET",
+            "/test_route",
+            undefined,
+            undefined,
+            undefined,
+        );
+        expect(actualResult).to.be.eql(expectedResult);
+    });
+
+    it("should get json parsed body with base path and slash", async function () {
+        const expectedResult = {result: 1};
+        fakeApp
+            .get("/test/1.0/test_route").once()
+            .reply(200, expectedResult);
+
+        const actualResult = await makeHttpRequest(
+            false,
+            "http://127.0.0.1:3000/test/1.0/",
+            undefined,
+            undefined,
             "GET",
             "/test_route",
             undefined,
