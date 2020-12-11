@@ -280,4 +280,33 @@ describe("should make tests", function () {
         }
         assert.fail("error should be throw above");
     });
+
+    it("should throw error when get not 200 code and no message", async function () {
+        let longQueryString = "";
+        for (let i = 0; i < 10000; i++) {
+            longQueryString = longQueryString + "q";
+        }
+        fakeApp
+            .get("/test_route", { request: 1 }).once()
+            .reply(400, "");
+
+        try {
+            await makeHttpRequest(
+                false,
+                "http://127.0.0.1:3000?test=" + longQueryString,
+                "john",
+                "galt",
+                "GET",
+                "/test_route",
+                {request: 1},
+                undefined,
+                undefined,
+            );
+        } catch (err) {
+            expect(err).to.be.an.instanceof(Error);
+            expect(err.message).to.be.equal("400");
+            return;
+        }
+        assert.fail("error should be throw above");
+    });
 });

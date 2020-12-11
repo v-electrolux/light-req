@@ -85,6 +85,16 @@ class ExternalServiceError extends Error {
         } else {
             message = JSON.stringify(response);
         }
+        const trailerArray = [];
+        if (statusMessage) {
+            trailerArray.push(statusMessage);
+        }
+        if (status) {
+            trailerArray.push(status);
+        }
+        if ((message === "") && trailerArray.length !== 0) {
+            message = trailerArray.join(" ");
+        }
         super(message);
         this.name = this.constructor.name;
         this.status = status;
