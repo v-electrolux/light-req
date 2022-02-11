@@ -56,7 +56,7 @@ async function makeHttpRequest(isSecure, url, login, password, method, path, bod
                     if (isJsonResponse && !parseSuccessfully) {
                         reject(parseError);
                     } else {
-                        if (response.statusCode !== 200) {
+                        if ((response.statusCode < 200) || (response.statusCode > 299)) {
                             reject(new ExternalServiceError(response.statusCode, response.statusMessage, responseBody));
                         } else {
                             resolve(responseBody);
